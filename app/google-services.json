@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "263547736656",
+    "firebase_url": "https://apni-shutle-driver.firebaseio.com",
+    "project_id": "apni-shutle-driver",
+    "storage_bucket": "apni-shutle-driver.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:263547736656:android:b0307143a0d5fc58",
+        "android_client_info": {
+          "package_name": "com.vegmine.apnishuttle.driver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "263547736656-b5e0aiajta61f0le66eo1s51vtf3k44m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLPCzmJwP_SAF_BfINobZkn0-kUsJmk_8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
