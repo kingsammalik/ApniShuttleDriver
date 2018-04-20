@@ -1,18 +1,22 @@
 package com.vegmine.apnishuttle.driver;
 
 import android.animation.ValueAnimator;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.animation.LinearInterpolator;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -33,7 +37,10 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 import static com.google.android.gms.maps.model.JointType.ROUND;
 
@@ -299,4 +306,45 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return (float) ((90 - Math.toDegrees(Math.atan(lng / lat))) + 270);
         return -1;
     }
-}
+
+    public static void sendPushToSingleInstance(final Context activity, final HashMap dataValue /*your data from the activity*/, final String instanceIdToken /*firebase instance token you will find in documentation that how to get this*/ ) {
+
+
+        final String url = "https://fcm.googleapis.com/fcm/send";
+        StringRequest myReq = new StringRequest(Request.Method.POST,url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(activity, "Bingo Success", Toast.LENGTH_SHORT).show();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(activity, "Oops error", Toast.LENGTH_SHORT).show();
+                    }
+                }) {
+
+            @Override
+            public byte[] getBody() throws com.android.volley.AuthFailureError {
+                Map<String,String> rawParameters = new Hashtable<String, String>();
+                rawParameters.put("data", new JSONObject(dataValue).toString());
+                rawParameters.put("to", instanceIdToken);
+                return new JSONObject(rawParameters).toString().getBytes();
+            };
+
+            public String getBodyContentType()
+            {
+                return "application/json; charset=utf-8";
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<String, String>();
+                headers.put("Authorization", "key="+"YOUR_LEGACY_SERVER_KEY_FROM_FIREBASE_CONSOLE");
+                return headers;
+            }
+
+        };
+
+        Volley.newRequestQueue(activity).add(myReq);
+    }}
